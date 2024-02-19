@@ -1,12 +1,12 @@
 pipeline {
-  agent {
-    docker { image 'ubuntu/apache2' }
-  }
+  agent any
+  
   stages {
     stage('Build') {
       steps {
+          sh 'docker pull apache2:latest'
          sh 'docker run -d --name apache2-container -it  -p 8080:80 ubuntu/apache2'
       }
     }
-  }
+  }s
 }
