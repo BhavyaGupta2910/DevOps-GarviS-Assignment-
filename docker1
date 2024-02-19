@@ -1,12 +1,30 @@
 pipeline {
-  agent any
-  
-  stages {
-    stage('Build') {
-      steps {
-         
-         sh 'docker run -d --name apache2-container -it  -p 8080:80 ubuntu/apache2'
-      }
-    }
-  }
+    agent any
+
+    triggers {
+        githubPush()
+    }
+
+    stages {
+        stage('Pull and Run Apache Image') {
+            steps {
+                script {
+                    // Pull Apache image
+                    docker.image('httpd:latest').pull()
+
+                    // Run Apache container
+                    docker.container('my-apache-container').withRun('-p 8080:80') {
+                        // Additional configurations if needed
+                    }
+                }
+            }
+        }
+
+        stage('Build and Deploy Your Application') {
+            steps {
+                // Add steps to build and deploy your application inside the Apache container
+            }
+        }
+    }
+
 }
