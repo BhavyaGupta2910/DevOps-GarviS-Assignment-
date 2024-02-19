@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-          sh 'docker pull apache2:latest'
+         
          sh 'docker run -d --name apache2-container -it  -p 8080:80 ubuntu/apache2'
       }
     }
